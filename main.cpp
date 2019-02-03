@@ -58,7 +58,6 @@ void printSpiral(string &inputString, int &squareSide)
 }
 
 int main() {
-    //char** charSquare;
     string inputString = "Testing";
     int squareSide = getSquareSide(inputString);
     int numPeriods = squareSide*squareSide - inputString.size();
