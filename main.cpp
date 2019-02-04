@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <fstream>
 #include "ArgumentManager.h"
 using namespace std;
 
@@ -12,7 +13,7 @@ int getSquareSide (string &str)
     return (int)sqrt(stringLength);
 }
 
-void printSpiral(string &inputString, int &squareSide)
+void printSpiral(string &inputString, int &squareSide, ofstream &fout)
 {
     //Allocate Space for Square
     char** square = new char*[squareSide];
@@ -51,14 +52,25 @@ void printSpiral(string &inputString, int &squareSide)
 
     for (int x = 0; x < squareSide; x++){
         for (int y = 0; y < squareSide; y++){
-            cout << square[x][y] << " ";
+            fout << square[x][y] << " ";
         }
-        cout << endl;
+        fout << endl;
     }
 }
 
-int main() {
-    string inputString = "Testing";
+int main(int argc, char* argv[]) {
+    string inputString;
+    //char** charSquare;
+    ArgumentManager am(argc, argv);
+    string inputFileName = am.get("input");
+    string outputFileName = am.get("output");
+
+    ifstream fin(inputFileName);
+
+    fin >> inputString;
+
+    ofstream fout(outputFileName);
+
     int squareSide = getSquareSide(inputString);
     int numPeriods = squareSide*squareSide - inputString.size();
 
@@ -67,7 +79,11 @@ int main() {
         inputString += '.';
 
     //Print result
-    printSpiral(inputString, squareSide);
+    printSpiral(inputString, squareSide, fout);
+    
+    
+    fout.close();
+    fin.close();
     return 0;
 }
 
